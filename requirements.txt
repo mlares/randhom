@@ -1,0 +1,6 @@
+numpy
+scipy
+pandas
+astropy
+pytest
+coverage
