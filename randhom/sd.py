@@ -3,6 +3,7 @@ from astropy.table import Table
 from astropy.io import ascii
 from astropy import units as u
 from sys import argv
+import sys
 
 import randhom as rh
 
@@ -20,29 +21,30 @@ config.read(filename)
 
 from os import listdir
 
-exec('units=u.' + config['exp']['nran'])
+exec('units=u.' + config['exp']['unit'])
 exec('nran=' + config['exp']['nran'])
-
+ 
 smin = float(config['exp']['scale_min'])
 smax = float(config['exp']['scale_max'])
-sbin = float(config['exp']['scale_nbins'])
+sbin = int(config['exp']['scale_nbins'])
 nr = np.linspace(start=smin, stop=smax, num=sbin, endpoint=True)
 rh_type = config['exp']['experiment']
 
-if rh_type in 'CCVT.ccvt.Ccvt': rh_type='CCVT'
-if rh_type in 'GLASS.glass.Glass': rh_type='GLASS'
+if rh_type in 'CCVT.ccvt.Ccvt': rh_type='ccvt'
+if rh_type in 'GLASS.glass.Glass': rh_type='glass'
 if rh_type in 'ZELREC.ZelRec.zelrec.zel_rec.Zel_Rec.ZEL_REC': \
-               rh_type='ZELREC'
+               rh_type='zelrec'
 if rh_type in 'RANCROSS.RanCross.rancross.Ran_Cross.\
-               ran_cross': rh_type='RANCROSS'
+               ran_cross': rh_type='rancross'
 if rh_type in 'RANCROSS.RanSplit.ransplit.Ran_Split.\
-               ran_split': rh_type='RANSPLIT'
+               ran_split': rh_type='ransplit'
 
 input_dir =  config['dirs']['dir_data'] + config['dirs']['base_in'] +\
              rh_type + '/'
 xi_files = listdir(input_dir)
 nfiles_max = int(config['exp']['nfiles_max'])
 rh.test_r_len(input_dir + xi_files[0], nr)
+
 
 #___________________________________
 # compute
