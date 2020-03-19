@@ -33,8 +33,16 @@ def load_parameters(config):
     units = u.Unit(config['exp']['unit'])
 
     x = (config['exp']['nran']).split('**')
-    nran = pow(float(x[0]), float(x[1]))
-     
+
+    nran = 1.
+    if 'x' in x: 
+        s=x.split('x')
+        nran = float(s[0])
+    for ss in s:
+        if '**' in ss:
+            p = ss.split('**')
+            nran = nran*pow(float(p[0]), float(p[1]))
+
     smin = float(config['exp']['scale_min'])
     smax = float(config['exp']['scale_max'])
     sbin = int(config['exp']['scale_nbins'])
